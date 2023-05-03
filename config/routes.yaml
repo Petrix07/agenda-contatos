@@ -11,7 +11,27 @@ index:
     path: / 
     controller: App\Controller\HomeController::index
 
-# Cadastro de Pessoa
-cadastro_pessoa:
+# Consulta de Pessoas
+pessoa_consultar:
+    path: /pessoa
+    controller: App\Controller\PessoaController::index
+
+# Cadastrar Pessoa
+pessoa_cadastrar:
     path: /pessoa/cadastrar
     controller: App\Controller\PessoaController::cadastrar
+
+# Editar Pessoa
+pessoa_editar:
+    path: /pessoa/editar/{id}
+    controller: App\Controller\PessoaController::editar
+
+# Excluir Pessoa
+pessoa_excluir:
+    path: /pessoa/excluir
+    controller: App\Controller\PessoaController::cadastrar
+
+# Consulta de Contatos
+contato_consultar:
+    path: /contato
+    controller: App\Controller\PessoaController::index
