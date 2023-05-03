@@ -10,3 +10,8 @@ kernel:
 index:
     path: / 
     controller: App\Controller\HomeController::index
+
+# Cadastro de Pessoa
+cadastro_pessoa:
+    path: /pessoa/cadastrar
+    controller: App\Controller\PessoaController::cadastrar
