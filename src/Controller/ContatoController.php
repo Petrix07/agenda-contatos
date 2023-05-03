@@ -19,7 +19,7 @@ use App\Entity\Contato,
 class ContatoController extends AbstractController
 {
     const pathConsultaContato     = 'contato/index.html.twig',
-        pathFormCadastroContato = 'contato/form.html.twig';
+          pathFormCadastroContato = 'contato/form.html.twig';
     /**
      * Renderiza a tela de consulta de contatos
      * @param ContatoRepository $oContatoRepo
@@ -76,5 +76,42 @@ class ContatoController extends AbstractController
     private function permiteExecucaoBanco(FormInterface $oFormulario): bool
     {
         return $oFormulario->isSubmitted() && $oFormulario->isValid();
+    }
+
+    /**
+     *  Realiza a atualização de um contato
+     * @param int $id
+     * @param Request $oRequisicao
+     * @param EntityManagerInterface $oEm
+     * @param ContatoRepository $oContatoRepo
+     * @return Response
+     */
+    public function editar($id, Request $oRequisicao, EntityManagerInterface $oEm, ContatoRepository $oContatoRepo): Response
+    {
+        $oContato = $oContatoRepo->find($id);
+        $oFormulario = $this->getFormularioFromContato($oRequisicao, $oContato);
+        if ($this->permiteExecucaoBanco($oFormulario)) {
+            $oEm->flush();
+            $this->addFlash('info', 'Registro alterado com sucesso!');
+
+        }
+
+        return $this->renderForm(self::pathFormCadastroContato, ['titulo' => 'Editar Contato', 'formulario' => $oFormulario]);
+    }
+
+    /**
+     *  Realiza a exclusão de um contato
+     * @param int $id
+     * @param EntityManagerInterface $oEm
+     * @param ContatoRepository $oContatoRepo
+     * @return Response
+     */
+    public function excluir($id, EntityManagerInterface $oEm, ContatoRepository $oContatoRepo): Response
+    {
+        $oContato = $oContatoRepo->find($id);
+        $oEm->remove($oContato);
+        $oEm->flush();
+
+        return $this->redirectToRoute('contato_consultar');
     }
 }
