@@ -34,4 +34,19 @@ pessoa_excluir:
 # Consulta de Contatos
 contato_consultar:
     path: /contato
-    controller: App\Controller\PessoaController::index
+    controller: App\Controller\ContatoController::index
+
+# Cadastrar Contato
+pessoa_cadastrar:
+    path: /contato/cadastrar
+    controller: App\Controller\ContatoController::cadastrar
+
+# Editar Contato
+pessoa_editar:
+    path: /contato/editar/{id}
+    controller: App\Controller\ContatoController::editar
+
+# Excluir Contato
+pessoa_excluir:
+    path: /contato/excluir/{id}
+    controller: App\Controller\ContatoController::excluir
