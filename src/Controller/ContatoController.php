@@ -100,7 +100,7 @@ class ContatoController extends AbstractController
     }
 
     /**
-     *  Realiza a exclusão de um contato
+     * Realiza a exclusão de um contato
      * @param int $id
      * @param EntityManagerInterface $oEm
      * @param ContatoRepository $oContatoRepo
