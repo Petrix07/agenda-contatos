@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController,
+use App\Form\PessoaType,
+    Symfony\Bundle\FrameworkBundle\Controller\AbstractController,
     Symfony\Component\HttpFoundation\Response,
-    Doctrine\ORM\EntityManagerInterface;
+    Doctrine\ORM\EntityManagerInterface,
+    Symfony\Component\Routing\Annotation\Route;
 
 
 /**
@@ -14,12 +16,26 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController,
  */
 class PessoaController extends AbstractController
 {
-    /**
-     * @Route("/", name="pessoa_index")
-     */
+    const pathFormCadastroPessoa = 'pessoa/form.html.twig';
+
     public function index(EntityManagerInterface $oEm): Response
     {
         $oEm;
         return new Response();
+    }
+
+    /**
+     * @Route("/pessoa/cadastrar", name="categoria_cadastrar")
+     */
+    public function cadastrar(): Response
+    {
+        return $this->renderForm(self::pathFormCadastroPessoa, $this->getDadosFormularioCadastroPessoa());
+    }
+
+    private function getDadosFormularioCadastroPessoa(): array {
+        return [
+            'titulo'     => 'Adicionar nova Pessoa',
+            'formulario' => $this->createForm(PessoaType::class)
+        ];
     }
 }
