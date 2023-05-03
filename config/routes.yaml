@@ -37,16 +37,16 @@ contato_consultar:
     controller: App\Controller\ContatoController::index
 
 # Cadastrar Contato
-pessoa_cadastrar:
+contato_cadastrar:
     path: /contato/cadastrar
     controller: App\Controller\ContatoController::cadastrar
 
 # Editar Contato
-pessoa_editar:
+contato_editar:
     path: /contato/editar/{id}
     controller: App\Controller\ContatoController::editar
 
 # Excluir Contato
-pessoa_excluir:
+contato_excluir:
     path: /contato/excluir/{id}
     controller: App\Controller\ContatoController::excluir

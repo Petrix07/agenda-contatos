@@ -146,13 +146,12 @@ class PessoaController extends AbstractController
      * @return bool
      */
     private function verificaCpfIsValidoAlteracao(Pessoa $oPessoa, EntityManagerInterface $oEm): bool
-    {
-        $xRetorno = $oEm->getRepository(Pessoa::class)->findOneBy([
-            'id'  => ['<>' => $oPessoa->getId()],
+    {   
+        $xRetorno = $oEm->getRepository(Pessoa::class)->findBy([
             'cpf' => $oPessoa->getCpf()
         ]);
-
-        return $xRetorno != null;
+        
+        return is_array($xRetorno) ? count($xRetorno) <= 1 : true;
     }
 
     /**
