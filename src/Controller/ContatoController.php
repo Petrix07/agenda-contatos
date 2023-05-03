@@ -12,7 +12,7 @@ use App\Entity\Contato,
     App\Repository\ContatoRepository;
 
 /**
- * Controller da entidade "COntato"
+ * Controller da entidade "Contato"
  * @author - Luiz Fernando Petris 
  * @since - 02/05/2023
  */
@@ -35,7 +35,7 @@ class ContatoController extends AbstractController
         return $this->render(self::pathConsultaContato, $aDados);
     }
 
-    /*
+   /*
     * Método que realiza o cadastro de um novo contato
     * @param Request $oRequisicao
     * @param EntityManagerInterface $oEm
@@ -79,7 +79,7 @@ class ContatoController extends AbstractController
     }
 
     /**
-     *  Realiza a atualização de um contato
+     * Realiza a atualização de um contato
      * @param int $id
      * @param Request $oRequisicao
      * @param EntityManagerInterface $oEm
