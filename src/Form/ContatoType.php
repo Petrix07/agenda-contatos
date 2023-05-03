@@ -17,7 +17,7 @@ use App\Entity\Pessoa,
  */
 class ContatoType extends AbstractType
 {
-    /*
+   /*
     * Constrói o formulário de cadastro da entidade "Contato"
     */
     public function buildForm(FormBuilderInterface $oBuilder, array $aOptions)
