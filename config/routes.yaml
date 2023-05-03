@@ -28,8 +28,8 @@ pessoa_editar:
 
 # Excluir Pessoa
 pessoa_excluir:
-    path: /pessoa/excluir
-    controller: App\Controller\PessoaController::cadastrar
+    path: /pessoa/excluir/{id}
+    controller: App\Controller\PessoaController::excluir
 
 # Consulta de Contatos
 contato_consultar:

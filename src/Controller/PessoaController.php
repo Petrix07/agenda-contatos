@@ -154,4 +154,20 @@ class PessoaController extends AbstractController
 
         return $xRetorno != null;
     }
+
+    /**
+     * Deleta o registro informado
+     * @param int $id
+     * @param EntityManagerInterface $oEm
+     * @param PessoaRepository $oPessoaRepo
+     * @return Response
+     */
+    public function excluir($id, EntityManagerInterface $oEm, PessoaRepository $oPessoaRepo): Response
+    {
+        $oPessoa = $oPessoaRepo->find($id);
+        $oEm->remove($oPessoa);
+        $oEm->flush();
+
+        return $this->redirectToRoute('pessoa_consultar');
+    }
 }
