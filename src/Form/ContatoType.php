@@ -19,14 +19,13 @@ class ContatoType extends AbstractType
 {
     /*
     * Constrói o formulário de cadastro da entidade "Contato"
-    * @inheritDoc
     */
     public function buildForm(FormBuilderInterface $oBuilder, array $aOptions)
     {
         $oBuilder
             ->add('tipo',      IntegerType::class,  ['label' => 'Tipo:'])
             ->add('descricao', TextType::class,     ['label' => 'Descrição:'])
-            ->add('pessoa', EntityType::class,   ['class' => Pessoa::class, 'choice_label' => 'nome', 'label' => 'Pessoa:'])
-            ->add('Salvar', SubmitType::class);
+            ->add('pessoa',    EntityType::class,   ['class' => Pessoa::class, 'choice_label' => 'nome', 'label' => 'Pessoa:'])
+            ->add('Salvar',    SubmitType::class);
     }
 }
