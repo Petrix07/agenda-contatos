@@ -18,7 +18,8 @@ use App\Entity\Pessoa,
  */
 class PessoaController extends AbstractController
 {
-    const pathFormCadastroPessoa = 'pessoa/form.html.twig';
+    const pathConsultaPessoa     = 'pessoa/index.html.twig',
+          pathFormCadastroPessoa = 'pessoa/form.html.twig';
 
     /**
      * Renderiza a tela contendo a consulta de pessoas
@@ -30,7 +31,7 @@ class PessoaController extends AbstractController
             'titulo'  => 'Consulta de Pessoas',
             'pessoas' => $oPessoaRepo->findAll()
         ];
-        return $this->render('pessoa/index.html.twig', $aDados);
+        return $this->render(self::pathConsultaPessoa, $aDados);
     }
 
     /**

@@ -4,13 +4,15 @@
 
     <h1 class="display-6 small text-center"> {{titulo}} </h1>
     <a href="{{ path('pessoa_cadastrar') }}" class="btn btn-primary"> Incluir Nova Pessoa</a>
+    <p>Abaixo está sendo apresentado todos os registros de pessoa cadastrados</p>
 
-    <table class="table">
-    <th>
+    <table class="table table-striped ">
+    <tr>
         <td>#</td>
         <td>Nome</td>
         <td>CPF</td>
-    </th>
+        <td>Ações</td>
+    </tr>
     {% for pessoa in pessoas %}
         <tr>
             <td> {{ pessoa.id }} </td>

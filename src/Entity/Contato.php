@@ -14,7 +14,7 @@ class Contato
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::BINARY)]
+    #[ORM\Column(type: Types::INTEGER)]
     private $tipo = null;
 
     #[ORM\Column(length: 255)]
@@ -29,7 +29,7 @@ class Contato
         return $this->id;
     }
 
-    public function getTipo()
+    public function getTipo(): ?int
     {
         return $this->tipo;
     }

@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% block title %} {{titulo}} {% endblock %}
+{% block body %} 
+
+    <h1 class="display-6 small text-center"> {{titulo}} </h1>
+    <a href="{{ path('contato_cadastrar') }}" class="btn btn-primary"> Incluir Novo Contato</a>
+    <p>Abaixo está sendo apresentado todos os registros de pessoa cadastrados</p>
+
+    <table class="table table-striped ">
+    <tr>
+        <td>#</td>
+        <td>Tipo</td>
+        <td>Descrição</td>
+        <td>Pessoa</td>
+        <td>Ações</td>
+    </tr>
+    {% for contato in contatos %}
+        <tr>
+            <td> {{ contato.id }} </td>
+            <td> {{ contato.tipo }} </td>
+            <td> {{ contato.descricao }} </td>
+            <td> {{ contato.pessoa.nome }} </td>
+            <td>
+                <a href="{{ path('contato_editar', {id: contato.id}) }}" class="btn btn-warning">Editar</a>
+                <a href="{{ path('contato_excluir', {id: contato.id}) }}" class="btn btn-danger">Excluir</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+
+{% endblock %} 
