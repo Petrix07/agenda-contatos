@@ -2,11 +2,14 @@
 
 namespace App\Repository;
 
-use App\Entity\Contato;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Contato,
+    Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository,
+    Doctrine\Persistence\ManagerRegistry;
 
 /**
+ * Model de "Contato"
+ * @author - Luiz Fernando Petris 
+ * @since - 02/05/2023
  * @extends ServiceEntityRepository<Contato>
  *
  * @method Contato|null find($id, $lockMode = null, $lockVersion = null)
@@ -39,28 +42,4 @@ class ContatoRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Contato[] Returns an array of Contato objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Contato
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

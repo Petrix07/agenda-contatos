@@ -9,9 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController,
 
 /**
  * Controller da entidade "Pessoa"
- * @package - Controller
- * @author  - Luiz Fernando Petris 
- * @since   - 02/05/2023
+ * @author - Luiz Fernando Petris 
+ * @since - 02/05/2023
  */
 class PessoaController extends AbstractController
 {

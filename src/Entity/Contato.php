@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\ContatoRepository;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ContatoRepository,
+    Doctrine\DBAL\Types\Types,
+    Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ContatoRepository::class)]
 class Contato
