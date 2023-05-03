@@ -8,8 +8,8 @@ use App\Entity\Pessoa,
     Symfony\Component\HttpFoundation\Response,
     Doctrine\ORM\EntityManagerInterface,
     Symfony\Component\Form\FormInterface,
-    Symfony\Component\HttpFoundation\Request;
-use App\Repository\PessoaRepository;
+    Symfony\Component\HttpFoundation\Request,
+    App\Repository\PessoaRepository;
 
 /**
  * Controller da entidade "Pessoa"
@@ -20,13 +20,21 @@ class PessoaController extends AbstractController
 {
     const pathFormCadastroPessoa = 'pessoa/form.html.twig';
 
-    public function index(EntityManagerInterface $oEm): Response
+    /**
+     * Renderiza a tela contendo a consulta de pessoas
+     * @param PessoaRepository $oPessoaRepo
+     */
+    public function index(PessoaRepository $oPessoaRepo): Response
     {
-        $oEm;
-        return new Response();
+        $aDados = [
+            'titulo'  => 'Consulta de Pessoas',
+            'pessoas' => $oPessoaRepo->findAll()
+        ];
+        return $this->render('pessoa/index.html.twig', $aDados);
     }
 
     /**
+     * Método que realiza o cadastro de uma nova pessoa
      * @param Request $oRequisicao
      * @param EntityManagerInterface $oEm
      * @return Response
@@ -34,11 +42,10 @@ class PessoaController extends AbstractController
     public function cadastrar(Request $oRequisicao, EntityManagerInterface $oEm): Response
     {
         $oPessoa = new Pessoa();
-        $oFormulario = $this->createForm(PessoaType::class, $oPessoa);
-        $oFormulario->handleRequest($oRequisicao);
+        $oFormulario = $this->getFormularioFromPessoa($oRequisicao, $oPessoa);
 
         if ($this->permiteExecucaoBanco($oFormulario)) {
-            if ($this->validaInformacoesRegistro($oPessoa, $oEm)) {
+            if ($this->validaInformacoesRegistroInclusao($oPessoa, $oEm)) {
                 $oEm->persist($oPessoa);
                 $oEm->flush();
                 $this->addFlash('info', 'Registro incluído com sucesso!');
@@ -51,7 +58,21 @@ class PessoaController extends AbstractController
     }
 
     /**
+     * Retorna o formulário da entidade pessoa
+     * @param Request $oRequisicao,
+     * @param Pessoa $oPessoa,
+     */
+    private function getFormularioFromPessoa(Request $oRequisicao, Pessoa $oPessoa)
+    {
+        $oFormulario = $this->createForm(PessoaType::class, $oPessoa);
+        $oFormulario->handleRequest($oRequisicao);
+
+        return $oFormulario;
+    }
+
+    /**
      * Verifica se a condição do formulário permite a execução no banco de dados
+     * @param FormInterface $oFormulario
      * @return bool
      */
     private function permiteExecucaoBanco(FormInterface $oFormulario): bool
@@ -61,22 +82,76 @@ class PessoaController extends AbstractController
 
     /**
      * Aplica as validações da regra de negócio sob o registro 
+     * @param Pessoa $oPessoa
+     * @param EntityManagerInterface $oEm
      * @return bool
      */
-    private function validaInformacoesRegistro(Pessoa $oPessoa, EntityManagerInterface $oEm)
+    private function validaInformacoesRegistroInclusao(Pessoa $oPessoa, EntityManagerInterface $oEm)
     {
-        return $this->isNovoRegistroCpf($oPessoa, $oEm);
+        return $this->verificaCpfIsValidoInclusao($oPessoa, $oEm);
     }
 
     /**
      * Verifica se o CPF informado não está associado a outro registro
+     * @param Pessoa $oPessoa
+     * @param EntityManagerInterface $oEm
      * @return bool
      */
-    private function isNovoRegistroCpf(Pessoa $oPessoa, EntityManagerInterface $oEm)
+    private function verificaCpfIsValidoInclusao(Pessoa $oPessoa, EntityManagerInterface $oEm)
     {
         $xRetorno = $oEm->getRepository(Pessoa::class)->findOneBy([
-            'cpf' => $oPessoa->getCpf(),
+            'cpf' => $oPessoa->getCpf()
         ]);
         return $xRetorno == null;
+    }
+
+    /**
+     * Método que realiza a alteração de uma pessoa
+     * @param int $id
+     * @param Request $oRequisicao
+     * @param EntityManagerInterface $oEm
+     * @param PessoaRepository $oPessoaRepo
+     */
+    public function editar($id, Request $oRequisicao, EntityManagerInterface $oEm, PessoaRepository $oPessoaRepo): Response
+    {
+        $oPessoa     = $oPessoaRepo->find($id);
+        $oFormulario = $this->getFormularioFromPessoa($oRequisicao, $oPessoa);
+        if ($this->permiteExecucaoBanco($oFormulario)) {
+            if ($this->validaInformacoesRegistroAlteracao($oPessoa, $oEm)) {
+                $oEm->flush();
+                $this->addFlash('info', 'Registro alterado com sucesso!');
+            } else {
+                $this->addFlash('aviso', "Já existe um registro cadastrado com o CPF: {$oPessoa->getCpf()}. Para continuar a alteração, informe outro CPF.");
+            }
+        }
+
+        return $this->renderForm(self::pathFormCadastroPessoa, ['titulo' => 'Alterar dados Pessoa', 'formulario' => $oFormulario]);
+    }
+
+    /**
+     * Valida as regras de negócio definidas no contexto de alteração
+     * @param Pessoa $oPessoa
+     * @param EntityManagerInterface $oEm
+     * @return bool
+     */
+    private function validaInformacoesRegistroAlteracao(Pessoa $oPessoa, EntityManagerInterface $oEm): bool
+    {
+        return $this->verificaCpfIsValidoAlteracao($oPessoa, $oEm);
+    }
+
+    /**
+     * Verifica se o CPF informado está associado a outro registro além do presente no formulário de alteração
+     * @param Pessoa $oPessoa
+     * @param EntityManagerInterface $oEm
+     * @return bool
+     */
+    private function verificaCpfIsValidoAlteracao(Pessoa $oPessoa, EntityManagerInterface $oEm): bool
+    {
+        $xRetorno = $oEm->getRepository(Pessoa::class)->findOneBy([
+            'id'  => ['<>' => $oPessoa->getId()],
+            'cpf' => $oPessoa->getCpf()
+        ]);
+
+        return $xRetorno != null;
     }
 }

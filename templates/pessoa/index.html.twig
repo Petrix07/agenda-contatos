@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block title %} {{titulo}} {% endblock %}
+{% block body %} 
+
+    <h1 class="display-6 small text-center"> {{titulo}} </h1>
+    <a href="{{ path('pessoa_cadastrar') }}" class="btn btn-primary"> Incluir Nova Pessoa</a>
+
+    <table class="table">
+    <th>
+        <td>#</td>
+        <td>Nome</td>
+        <td>CPF</td>
+    </th>
+    {% for pessoa in pessoas %}
+        <tr>
+            <td> {{ pessoa.id }} </td>
+            <td> {{ pessoa.nome }} </td>
+            <td> {{ pessoa.cpf }} </td>
+            <td>
+                <a href="{{ path('pessoa_editar', {id: pessoa.id}) }}" class="btn btn-warning">Editar</a>
+                <a href="{{ path('pessoa_excluir', {id: pessoa.id}) }}" class="btn btn-danger">Excluir</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+
+{% endblock %} 

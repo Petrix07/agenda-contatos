@@ -10,6 +10,7 @@
     {% for message in app.flashes('info') %}
         <div class="alert alert-success" role="alert">
             {{ message }}
+            <a href="{{ path('pessoa_consultar') }}" class="btn btn-primary"> Consultar Pessoas</a>
         </div>
     {% endfor %}
 
