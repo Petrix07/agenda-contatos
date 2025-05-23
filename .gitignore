@@ -7,4 +7,6 @@
 /public/bundles/
 /var/
 /vendor/
+.env
+.phpactor.json
 ###< symfony/framework-bundle ###
