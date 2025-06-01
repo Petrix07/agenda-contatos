@@ -74,6 +74,10 @@ Obs.: Caso o comando acima não seja executado com sucesso, execute o seguinte c
 
 - php bin/console doctrine:migrations:migrate
 
+> Irá rodar todos os testes de unidade do projeto
+
+- php bin/phpunit
+
 #### Rotas do sistema
 
 - index: localhost/
