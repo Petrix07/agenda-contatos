@@ -25,7 +25,10 @@ class PessoaType extends AbstractType
     ): void {
         $oBuilder
             ->add("nome", TextType::class, ["label" => "Nome:"])
-            ->add("cpf", TextType::class, ["label" => "CPF:"])
+            ->add("cpf", TextType::class, [
+                "label" => "CPF:",
+                "attr" => ["maxlength" => 14],
+            ])
             ->add("Salvar", SubmitType::class);
     }
 }
