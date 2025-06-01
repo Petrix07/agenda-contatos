@@ -12,18 +12,20 @@ use Symfony\Component\Form\AbstractType,
  * @author - Luiz Fernando Petris
  * @since - 02/05/2023
  */
-class PessoaType extends AbstractType {
-
+class PessoaType extends AbstractType
+{
     /**
      * Constrói o formulário de cadastro da entidade "Pessoa"
-     * @inheritDoc
+     * @param FormBuilderInterface
+     * @param array
      */
-    public function buildForm(FormBuilderInterface $oBuilder, array $aOptions)
-    {
+    public function buildForm(
+        FormBuilderInterface $oBuilder,
+        array $aOptions
+    ): void {
         $oBuilder
-            ->add('nome',   TextType::class,  ['label' => 'Nome:'])
-            ->add('cpf',    TextType::class,  ['label' => 'CPF:'])
-            ->add('Salvar', SubmitType::class);
+            ->add("nome", TextType::class, ["label" => "Nome:"])
+            ->add("cpf", TextType::class, ["label" => "CPF:"])
+            ->add("Salvar", SubmitType::class);
     }
-
 }
