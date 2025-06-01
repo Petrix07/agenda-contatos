@@ -9,6 +9,7 @@
 /vendor/
 .env
 .phpactor.json
+.twig-cs-fixer.cache
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
