@@ -13,105 +13,110 @@ use App\Entity\Contato,
 
 /**
  * Controller da entidade "Contato"
- * @author - Luiz Fernando Petris 
+ * @author - Luiz Fernando Petris
  * @since - 02/05/2023
  */
 class ContatoController extends AbstractController
 {
-    const pathConsultaContato     = 'contato/index.html.twig',
-          pathFormCadastroContato = 'contato/form.html.twig';
     /**
      * Renderiza a tela de consulta de contatos
-     * @param ContatoRepository $oContatoRepo
+     * @param ContatoRepository $contatoRepository
      * @return Response
      */
-    public function index(ContatoRepository $oContatoRepo): Response
+    public function index(ContatoRepository $contatoRepository): Response
     {
-        $aDados = [
-            'titulo'   => "Consulta de Contatos",
-            'contatos' => $oContatoRepo->findAll()
+        $dados = [
+            "titulo" => "Consulta de Contatos",
+            "contatos" => $contatoRepository->findAll(),
         ];
 
-        return $this->render(self::pathConsultaContato, $aDados);
+        return $this->render("contato/index.html.twig", $dados);
     }
 
-   /*
-    * Método que realiza o cadastro de um novo contato
-    * @param Request $oRequisicao
-    * @param EntityManagerInterface $oEm
-    * @return Response
-    */
-    public function cadastrar(Request $oRequisicao, EntityManagerInterface $oEm): Response
-    {
-        $oContato = new Contato();
-        $oFormulario = $this->getFormularioFromContato($oRequisicao, $oContato);
+    /*
+     * Método que realiza o cadastro de um novo contato
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
+    public function cadastrar(
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $contato = new Contato();
+        $formulario = $this->getFormularioFromContato($request, $contato);
 
-        if ($this->permiteExecucaoBanco($oFormulario)) {
-            $oEm->persist($oContato);
-            $oEm->flush();
-            $this->addFlash('info', 'Registro incluído com sucesso!');
+        if ($formulario->isSubmitted() && $formulario->isValid()) {
+            $entityManager->persist($contato);
+            $entityManager->flush();
+            $this->addFlash("info", "Registro incluído com sucesso!");
         }
 
-        return $this->renderForm(self::pathFormCadastroContato, ['titulo' => 'Adicionar novo Contato', 'formulario' => $oFormulario]);
+        return $this->renderForm("contato/form.html.twig", [
+            "titulo" => "Adicionar novo Contato",
+            "formulario" => $formulario,
+        ]);
     }
 
     /**
      * Retorna o formulário da entidade Contato
-     * @param Request $oRequisicao,
-     * @param Contato $oContato,
+     * @param Request $request,
+     * @param Contato $contato,
      */
-    private function getFormularioFromContato(Request $oRequisicao, Contato $oContato)
-    {
-        $oFormulario = $this->createForm(ContatoType::class, $oContato);
-        $oFormulario->handleRequest($oRequisicao);
+    private function getFormularioFromContato(
+        Request $request,
+        Contato $contato
+    ): FormInterface {
+        $formulario = $this->createForm(ContatoType::class, $contato);
+        $formulario->handleRequest($request);
 
-        return $oFormulario;
-    }
-
-    /**
-     * Verifica se a condição do formulário permite a execução no banco de dados
-     * @param FormInterface $oFormulario
-     * @return bool
-     */
-    private function permiteExecucaoBanco(FormInterface $oFormulario): bool
-    {
-        return $oFormulario->isSubmitted() && $oFormulario->isValid();
+        return $formulario;
     }
 
     /**
      * Realiza a atualização de um contato
      * @param int $id
-     * @param Request $oRequisicao
-     * @param EntityManagerInterface $oEm
-     * @param ContatoRepository $oContatoRepo
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param ContatoRepository $contatoRepository
      * @return Response
      */
-    public function editar($id, Request $oRequisicao, EntityManagerInterface $oEm, ContatoRepository $oContatoRepo): Response
-    {
-        $oContato = $oContatoRepo->find($id);
-        $oFormulario = $this->getFormularioFromContato($oRequisicao, $oContato);
-        if ($this->permiteExecucaoBanco($oFormulario)) {
-            $oEm->flush();
-            $this->addFlash('info', 'Registro alterado com sucesso!');
+    public function editar(
+        $id,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        ContatoRepository $contatoRepository
+    ): Response {
+        $contato = $contatoRepository->find($id);
+        $formulario = $this->getFormularioFromContato($request, $contato);
 
+        if ($formulario->isSubmitted() && $formulario->isValid()) {
+            $entityManager->flush();
+            $this->addFlash("info", "Registro alterado com sucesso!");
         }
 
-        return $this->renderForm(self::pathFormCadastroContato, ['titulo' => 'Editar Contato', 'formulario' => $oFormulario]);
+        return $this->renderForm("contato/form.html.twig", [
+            "titulo" => "Editar Contato",
+            "formulario" => $formulario,
+        ]);
     }
 
     /**
      * Realiza a exclusão de um contato
      * @param int $id
-     * @param EntityManagerInterface $oEm
-     * @param ContatoRepository $oContatoRepo
+     * @param EntityManagerInterface $entityManager
+     * @param ContatoRepository $contatoRepository
      * @return Response
      */
-    public function excluir($id, EntityManagerInterface $oEm, ContatoRepository $oContatoRepo): Response
-    {
-        $oContato = $oContatoRepo->find($id);
-        $oEm->remove($oContato);
-        $oEm->flush();
+    public function excluir(
+        $id,
+        EntityManagerInterface $entityManager,
+        ContatoRepository $contatoRepository
+    ): Response {
+        $contato = $contatoRepository->find($id);
+        $entityManager->remove($contato);
+        $entityManager->flush();
 
-        return $this->redirectToRoute('contato_consultar');
+        return $this->redirectToRoute("contato_consultar");
     }
 }
