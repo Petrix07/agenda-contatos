@@ -14,7 +14,7 @@
         {% endblock %}
     </head>
     <body>
-        <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
             <div class="container">
                 <a class="navbar-brand mx-auto" href="{{ path('index') }}">Gerenciamento de Contatos</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,7 +32,7 @@
                 </div>
             </div>
         </nav>
-        <div class="container shadow-sm p-2 mb-5 bg-white rounded">
+        <div class="container shadow p-2 mt-4 mb-5 bg-white rounded-3">
             {% block body %} {% endblock %}
         <div>
     </body>

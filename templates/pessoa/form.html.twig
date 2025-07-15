@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
-{% block title %} {{titulo}} {% endblock %}
-{% block body %} 
+{% block title %} {{ titulo }} {% endblock %}
+{% block body %}
     {% for message in app.flashes('aviso') %}
         <div class="alert alert-warning" role="alert">
             {{ message }}
@@ -10,11 +10,11 @@
     {% for message in app.flashes('info') %}
         <div class="alert alert-success" role="alert">
             {{ message }}
-            <a href="{{ path('pessoa_consultar') }}" class="btn btn-primary"> Consultar Pessoas</a>
+            <a href="{{ path('pessoa_consultar') }}" class="btn btn-primary">Consultar Pessoas</a>
         </div>
     {% endfor %}
 
-    <h1 class="display-6 small text-center"> {{titulo}} </h1>
-    {{ form(formulario)}}
+    <h1 class="h1 fs-3 fw-light p-4 text-center">{{ titulo }}</h1>
+    {{ form(formulario) }}
 
-{% endblock %} 
+{% endblock %}

@@ -17,15 +17,24 @@ use App\Entity\Pessoa,
  */
 class ContatoType extends AbstractType
 {
-   /*
-    * Constrói o formulário de cadastro da entidade "Contato"
-    */
-    public function buildForm(FormBuilderInterface $oBuilder, array $aOptions)
-    {
+    /**
+     * Constrói o formulário de cadastro da entidade "Contato"
+     * @param FormBuilderInterface
+     * @param array
+     * @return void
+     */
+    public function buildForm(
+        FormBuilderInterface $oBuilder,
+        array $aOptions
+    ): void {
         $oBuilder
-            ->add('tipo',      IntegerType::class,  ['label' => 'Tipo:'])
-            ->add('descricao', TextType::class,     ['label' => 'Descrição:'])
-            ->add('pessoa',    EntityType::class,   ['class' => Pessoa::class, 'choice_label' => 'nome', 'label' => 'Pessoa:'])
-            ->add('Salvar',    SubmitType::class);
+            ->add("tipo", IntegerType::class, ["label" => "Tipo:"])
+            ->add("descricao", TextType::class, ["label" => "Descrição:"])
+            ->add("pessoa", EntityType::class, [
+                "class" => Pessoa::class,
+                "choice_label" => "nome",
+                "label" => "Pessoa:",
+            ])
+            ->add("Salvar", SubmitType::class);
     }
 }

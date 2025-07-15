@@ -12,12 +12,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController,
  */
 class HomeController extends AbstractController
 {
-
     /**
      * @inheritdoc
      */
     public function index(): Response
     {
-        return $this->render('home\index.html.twig');
+        return $this->render("Home\index.html.twig");
     }
 }

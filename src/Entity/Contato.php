@@ -20,7 +20,7 @@ class Contato
     #[ORM\Column(length: 255)]
     private ?string $descricao = null;
 
-    #[ORM\ManyToOne(inversedBy: 'contatos')]
+    #[ORM\ManyToOne(inversedBy: "contatos")]
     #[ORM\JoinColumn(nullable: false)]
     private ?Pessoa $pessoa = null;
 
@@ -34,6 +34,9 @@ class Contato
         return $this->tipo;
     }
 
+    /**
+     * @param $tipo
+     */
     public function setTipo($tipo): self
     {
         $this->tipo = $tipo;
